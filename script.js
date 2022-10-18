@@ -65,6 +65,7 @@ const createNewTransaction = () => {
 		  newTransaction.classList.add("expense")
 
 	moneyArr.push(parseFloat(amountInput.value))
+	countMoney(moneyArr)
 
 	closePanel()
 	ID++
@@ -91,6 +92,25 @@ const checkCategory = (transaction) => {
 			break
 	}
 }
+
+const countMoney = (money) => {
+	const newMoney = money.reduce((a, b) => a + b)
+	availableMoney.textContent = `${newMoney} zł`
+}
+
+const deleteTransatcion = (id) => {
+	const transactionToDelete = document.getElementById(id)
+
+	const transactionAmount = parseFloat(transactionToDelete.childNodes[3].innerText)
+    const idexOfTransaction = moneyArr.indexOf(transactionAmount)
+
+
+    moneyArr.splice(idexOfTransaction, 1)
+    transactionToDelete.classList.contains('income') ? incomeSection.removeChild(transactionToDelete) : expensesSection.removeChild(transactionToDelete)
+    countMoney(moneyArr)
+
+}
+
 addTransactionBtn.addEventListener("click", showPanel)
 cancelBtn.addEventListener("click", closePanel)
 saveBtn.addEventListener("click", checkForm)
